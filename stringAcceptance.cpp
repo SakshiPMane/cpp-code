@@ -1,30 +1,28 @@
-
 #include <iostream>
 #include <string>
 using namespace std;
 
-struct Transition {
+typedef struct Transition {
     int fstate;
     char inp;
     int tstate;
-};
+}Transition;
 
 Transition table[] = {
     {0, '0', 1}, 
-    {1, '1', 1},
-    
+    {1, '1', 1},    
 };
 
 int finalstates[] = {1}; 
 
 int isAccepted(string input) {
     int currstate = 0; 
-
-    for (char currinput : input) {
-        int j;
+    int i;
+    for (i = 0; i < input.length(); i++) {
+        char currinput = input[i];
         int transitionfound = 0;
 
-       
+        int j;
         for (j = 0; j < 2; j++) {
             if (table[j].fstate == currstate && table[j].inp == currinput) {
                 currstate = table[j].tstate;
@@ -32,33 +30,28 @@ int isAccepted(string input) {
                 break;
             }
         }
-
         if (!transitionfound) {
             return 0; 
         }
     }
-
-   
-    int num_final_states = 1; 
-    for (int i = 0; i < num_final_states; i++) {
+    int nfinalStates = 1; 
+    for (int i = 0; i < nfinalStates; i++) {
         if (currstate == finalstates[i]) {
             return 1; 
         }
     }
-
     return 0; 
 }
 
 int main() {
-    string input_string;
-    cout << "Enter a string : ";
-    cin >> input_string;
+    string inputstring;
+    cout << "Enter a string ";
+    cin >> inputstring;
 
-    if (isAccepted(input_string)) {
-        cout << "Accepted" << endl;
+    if (isAccepted(inputstring)) {
+        cout << "String Accepted" << endl;
     } else {
         cout << "Not Accepted" << endl;
     }
-
     return 0;
 }
